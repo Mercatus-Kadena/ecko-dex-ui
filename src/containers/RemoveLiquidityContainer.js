@@ -22,6 +22,7 @@ import { LIQUIDITY_VIEW } from '../constants/liquidityView';
 import { getAllPairsData } from '../utils/token-utils';
 import theme from '../styles/theme';
 import RemoveSingleSideLiquidity from '../components/liquidity/RemoveSingleSideLiquidity';
+import {isWrapperBoosted} from '../constants/WrapperConfig';
 
 const Container = styled(FadeIn)`
   margin-top: 0px;
@@ -69,13 +70,19 @@ const RemoveLiquidityContainer = (props) => {
       const token0 = query.get('token0');
       const token1 = query.get('token1');
       const pairs = await getPairList(allPairs);
-
+  
       const resultPairList = await getPairListAccountBalance(
         account.account,
         pairs.filter((x) => x.reserves[0] !== 0)
       );
       if (resultPairList.length) {
         const currentPair = resultPairList.find((p) => p.token0 === token0 && p.token1 === token1);
+        
+        // Ensure isBoosted is correctly set
+        if (currentPair) {
+          currentPair.isBoosted = isWrapperBoosted(currentPair.token0_code, currentPair.token1_code);
+        }
+        
         setPair(currentPair);
         if (currentPair) {
           await calculateApr(resultPairList, currentPair, pairs);
@@ -87,15 +94,15 @@ const RemoveLiquidityContainer = (props) => {
     }
     setLoading(false);
   };
+// console.log('pair', pair);
 
   /* useInterval(async () => {
     if (pair) {
       await removePreview(pair);
     }
   }, 60000); */
-
   const removePreview = async (currentPair) => {
-    const res = await liquidity.removeLiquidityPreview(allTokens[currentPair?.token0].code, allTokens[currentPair?.token1].code, previewAmount);
+    const res = await liquidity.removeLiquidityPreview(allTokens[currentPair?.token0_code].code, allTokens[currentPair?.token1_code].code, previewAmount);
     if (!res.errorMessage) {
       setPreviewObject(res);
     }
