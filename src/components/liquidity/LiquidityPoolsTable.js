@@ -128,39 +128,36 @@ const renderColumns = (history, allTokens, allPairs, width, searchValue, setSear
       ),
       width: width <= theme().mediaQueries.mobilePixel ? 80 : 160,
       render: ({ item }) => {
-
-        // Extract token names from the item.name 
         const [t0, t1] = item.name.split(':');
-
-        // Find the tokens in allTokens
         const token0 = Object.values(allTokens).find(token => token.name === t0 || token.code === t0);
         const token1 = Object.values(allTokens).find(token => token.code === t1 || token.name === t1);
-
+    
         if (!token0 || !token1) {
           console.warn(`Token not found for ${t0} or ${t1}`);
           return null;
         }
-
-        // Determine which token is KDA
+    
         const [nonKdaToken, kdaToken] = token0.name === 'KDA' ? [token0, token1] : [token0, token1];
-
+    
         return (
           <ScalableCryptoContainer
-            desktopClassName="align-ce"
-            tabletClassName="align-ce"
-            mobileClassName="column align-fs"
-            mobilePixel={769}
+            className="pointer"
             onClick={() => history.push(ROUTE_POOL_INFO.replace(':pool', `${nonKdaToken.name}:${kdaToken.name}`), 
-            { from: history.location.pathname })}          >
-            <div className="flex align-ce">
-              
+            { from: history.location.pathname })}
+            style={{
+              flexDirection: width <= theme().mediaQueries.mobilePixel ? 'column' : 'row',
+              alignItems: 'flex-start',
+              gap: '4px',
+              width: 'fit-content'
+            }}
+          >
+            <div className="flex align-ce" style={{ alignSelf: 'flex-start' }}>
               <CryptoContainer style={{ zIndex: 2 }}>
                 <img
                   alt={`${kdaToken.name} icon`}
                   src={kdaToken.icon}
                   style={{ width: 20, height: 20, marginRight: '8px' }}
                   onError={(e) => {
-                    console.error(`Failed to load icon for ${kdaToken.name}:`, e);
                     e.target.onerror = null;
                     e.target.src = DEFAULT_ICON_URL;
                   }}
@@ -172,22 +169,23 @@ const renderColumns = (history, allTokens, allPairs, width, searchValue, setSear
                   src={nonKdaToken.icon}
                   style={{ width: 20, height: 20, marginRight: '8px' }}
                   onError={(e) => {
-                    console.error(`Failed to load icon for ${nonKdaToken.name}:`, e);
                     e.target.onerror = null;
                     e.target.src = DEFAULT_ICON_URL;
                   }}
                 />
               </CryptoContainer>
             </div>
-            <div
-              className="align-fs flex"
-              style={{
-                marginLeft: width <= theme().mediaQueries.mobilePixel && 32,
-                marginTop: width <= theme().mediaQueries.mobilePixel && 4,
-              }}
-            >
+            <span style={{ 
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: width <= theme().mediaQueries.mobilePixel ? 'wrap' : 'nowrap',
+              maxWidth: width <= theme().mediaQueries.mobilePixel ? '70px' : 'none',
+              fontSize: width <= theme().mediaQueries.mobilePixel ? '12px' : 'inherit',
+              lineHeight: width <= theme().mediaQueries.mobilePixel ? '1.2' : 'inherit',
+              marginLeft: width <= theme().mediaQueries.mobilePixel ? '0' : '4px'
+            }}>
               {kdaToken.name}/{nonKdaToken.name}
-            </div>
+            </span>
           </ScalableCryptoContainer>
         );
       },

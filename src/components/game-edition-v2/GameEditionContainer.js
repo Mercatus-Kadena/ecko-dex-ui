@@ -24,7 +24,7 @@ import ConnectWalletWalletConnectModal from '../modals/kdaModals/ConnectWalletWa
 import { FadeIn } from '../shared/animations';
 import GameEditionButtons from './components/GameEditionButtons';
 import TokenSelectorModalContent from '../modals/swap-modals/TokenSelectorModalContent';
-import gameEditionDesktop from '../../assets/images/game-edition/game-edition-desktop.svg';
+import gameEditionDesktop from '../../assets/images/game-edition/pixeled-circle-double-arrow.svg';
 import menuBackground from '../../assets/images/game-edition/menu-background.png';
 import loadingBackground from '../../assets/images/game-edition/loading-background.png';
 import arcadeBackground from '../../assets/images/game-edition/arcade-background.png';
