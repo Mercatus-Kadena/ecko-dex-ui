@@ -139,51 +139,70 @@ const ScalableCryptoContainer = styled(FlexContainer)`
 const renderColumns = (history, allTokens, width, searchValue, setSearchValue) => {
   return [
     {
-      name: (
-        <Search
-          containerStyle={{
-            marginBottom: '-10px',
-            marginTop: '-8px',
-            border: 'none',
-            width: '100px',
-          }}
-          iconFirst
-          fluid
-          placeholder="Search"
-          value={searchValue}
-          onChange={(e, { value }) => setSearchValue(value)}
-        />
-      ),
-      width: width <= theme().mediaQueries.mobilePixel ? 90 : 100,
-      render: ({ item }) => {
-        
-        // Find the token by name or code
-        const token = allTokens[item.name] || Object.values(allTokens).find(t => t.name === item.name || t.code === item.name);
+  name: (
+    <Search
+      containerStyle={{
+        marginBottom: '-10px',
+        marginTop: '-8px',
+        border: 'none',
+        width: '100px',
+      }}
+      iconFirst
+      fluid
+      placeholder="Search"
+      value={searchValue}
+      onChange={(e, { value }) => setSearchValue(value)}
+    />
+  ),
+  width: width <= theme().mediaQueries.mobilePixel ? 80 : 100,
+  render: ({ item }) => {
+    const token = allTokens[item.name] || Object.values(allTokens).find(t => t.name === item.name || t.code === item.name);
 
-        if (!token) {
-          console.warn(`Token not found for ${item.name}`);
-          return null;
-        }
+    if (!token) {
+      console.warn(`Token not found for ${item.name}`);
+      return null;
+    }
 
-        return (
-          <ScalableCryptoContainer className="align-ce pointer" onClick={() => history.push(ROUTE_TOKEN_INFO.replace(':token', item.statsId))}>
-            <CryptoContainer style={{ zIndex: 2 }}>
-              <img
-                alt={`${item.name} icon`}
-                src={token.icon}
-                style={{ width: 20, height: 20, marginRight: '8px' }}
-                onError={(e) => {
-                  console.error(`Failed to load icon for ${item.name}:`, e);
-                  e.target.onerror = null;
-                  e.target.src = DEFAULT_ICON_URL;
-                }}
-              />
-            </CryptoContainer>
-            {item.name}
-          </ScalableCryptoContainer>
-        );
-      },
-    },
+    return (
+      <ScalableCryptoContainer 
+        className="pointer" 
+        onClick={() => history.push(ROUTE_TOKEN_INFO.replace(':token', item.statsId))}
+        style={{ 
+          flexDirection: width <= theme().mediaQueries.mobilePixel ? 'column' : 'row',
+          alignItems: 'center',
+          gap: '4px'
+        }}
+      >
+        <CryptoContainer style={{ zIndex: 2 }}>
+          <img
+            alt={`${item.name} icon`}
+            src={token.icon}
+            style={{ 
+              width: 20, 
+              height: 20, 
+              marginRight: width <= theme().mediaQueries.mobilePixel ? 0 : '8px'
+            }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = DEFAULT_ICON_URL;
+            }}
+          /> 
+        </CryptoContainer>
+        <span style={{ 
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: width <= theme().mediaQueries.mobilePixel ? 'wrap' : 'nowrap',
+          maxWidth: width <= theme().mediaQueries.mobilePixel ? '70px' : 'none',
+          fontSize: width <= theme().mediaQueries.mobilePixel ? '12px' : 'inherit',
+          textAlign: width <= theme().mediaQueries.mobilePixel ? 'left' : 'left',
+          lineHeight: width <= theme().mediaQueries.mobilePixel ? '1.2' : 'inherit'
+        }}>
+          {item.name}
+        </span>
+      </ScalableCryptoContainer>
+    );
+  },
+},
     {
       name: 'price',
       width: width <= theme().mediaQueries.mobilePixel ? 90 : 100,

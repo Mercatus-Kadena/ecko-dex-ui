@@ -54,7 +54,6 @@ export const PactProvider = (props) => {
 
   const [allPairs, setAllPairs] = useState({});
   const [allTokens, setAllTokens] = useState({});
-
   const [isMultihopsSwap, setIsMultihopsSwap] = useState(false);
 
   const [kdaUsdPrice, setKdaUsdPrice] = useState(null);
@@ -193,8 +192,8 @@ export const PactProvider = (props) => {
     if (allTokens) {
       for (const [token_key, token] of Object.entries(allTokens)) {
         await getTokenUsdPriceByName(token.name, pairList, allTokens, kdaPrice, dexscanPoolsStats).then((price) => {
-          resultUsd[token_key] = price.usd;
-          resultKda[token_key] = price.kda;
+          resultUsd[token_key] = price?.usd;
+          resultKda[token_key] = price?.kda;
         });
       }
     }

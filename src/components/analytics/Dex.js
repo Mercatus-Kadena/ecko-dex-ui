@@ -21,6 +21,7 @@ import { SKDXIcon } from '../../assets';
 
 /* const KDX_TOTAL_SUPPLY = 1000000000; */
 
+
 const Dex = ({ kdaPrice, kdxSupply, poolState }) => {
   const { tokensUsdPrice, allPairs } = usePactContext();
   const [volumeRange, setVolumeRange] = useState(DAILY_VOLUME_RANGE.value);
@@ -31,7 +32,14 @@ const Dex = ({ kdaPrice, kdxSupply, poolState }) => {
   const [pairsVolume, setPairsVolume] = useState([]);
 
   const stakedKdx = extractDecimal((poolState && poolState['staked-kdx']) || 0);
+  const normalizeTokenName = (name) => {
+    return name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toUpperCase();
+  };
 
+  
   useEffect(() => {
     if (allPairs) {
       getPairList(allPairs).then((pL) => {
@@ -76,6 +84,7 @@ const Dex = ({ kdaPrice, kdxSupply, poolState }) => {
   };
 
   const getPairsVolume = async () => {
+    console.log('localPairList');
     axios
       .get(
         `${process.env.REACT_APP_KADDEX_STATS_API_URL}/volume/daily?dateStart=${chartTimeRanges[volumeRange].dateStartTvl}&dateEnd=${moment()
@@ -86,6 +95,7 @@ const Dex = ({ kdaPrice, kdxSupply, poolState }) => {
         const kdaPrice = tokensUsdPrice?.coin;
         let allVolumes = [];
         const allTokenPairs = localPairList;
+        console.log('allTokenPairs', allTokenPairs);
         const findTokenPair = (vol) =>
           allTokenPairs.find(
             (m) => m.name === `coin:${vol.tokenFromNamespace}.${vol.tokenFromName}` || m.name === `coin:${vol.tokenToNamespace}.${vol.tokenToName}`
