@@ -78,7 +78,7 @@ export const GAS_OPTIONS = {
       gasPrice: ECONOMY_GAS_PRICE,
     },
     CREATE_PAIR: {
-      gasLimit: 2500,
+      gasLimit: 2800,
       gasPrice: ECONOMY_GAS_PRICE,
     },
     REMOVE_LIQUIDITY_SINGLE_SIDE: {
@@ -116,7 +116,7 @@ export const GAS_OPTIONS = {
       gasPrice: NORMAL_GAS_PRICE,
     },
     CREATE_PAIR: {
-      gasLimit: 2500,
+      gasLimit: 2800,
       gasPrice: NORMAL_GAS_PRICE,
     },
     REMOVE_LIQUIDITY_SINGLE_SIDE: {
@@ -154,7 +154,7 @@ export const GAS_OPTIONS = {
       gasPrice: FAST_GAS_PRICE,
     },
     CREATE_PAIR: {
-      gasLimit: 2500,
+      gasLimit: 2800,
       gasPrice: FAST_GAS_PRICE,
     },
     REMOVE_LIQUIDITY_SINGLE_SIDE: {
@@ -192,7 +192,7 @@ export const GAS_OPTIONS = {
       gasPrice: GAS_STATION_PRICE,
     },
     CREATE_PAIR: {
-      gasLimit: 2500,
+      gasLimit: 2800,
       gasPrice: GAS_STATION_PRICE,
     },
     REMOVE_LIQUIDITY_SINGLE_SIDE: {

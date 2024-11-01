@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
-import { useApplicationContext, usePactContext } from '../../../contexts';
+import { useApplicationContext, usePactContext, useWalletContext } from '../../../contexts';
 import Input from '../../../components/shared/Input';
 import Label from '../../shared/Label';
 import { PumpIcon, WarningIcon } from '../../../assets';
@@ -147,6 +147,8 @@ const WarningAnimated = styled(WarningIcon)`
 
 const GasStationSettings = ({ className, hasNotification }) => {
   const pact = usePactContext();
+  const wallet = useWalletContext();
+  console.log('wallet', wallet);
   const { resolutionConfiguration } = useApplicationContext();
   const [showGasStationSettings, setShowGasStationSettings] = useState(false);
   const [currentSection, setCurrentSection] = useState('SWAP');
@@ -155,6 +157,13 @@ const GasStationSettings = ({ className, hasNotification }) => {
 
   const ref = useRef();
   useOnClickOutside(ref, () => setShowGasStationSettings(false));
+
+  useEffect(() => {
+    if (wallet?.wallet?.id === "WALLETCONNECT") {
+      pact.setEnableGasStation(false); // Disables gas station for WalletConnect by default
+    }
+  }, [wallet?.id, pact]);
+  
 
   useEffect(() => {
     const section = Object.values(PATH_CONFIGURATION).find((path) => path.route === pathname)?.name;
@@ -204,7 +213,7 @@ const GasStationSettings = ({ className, hasNotification }) => {
         <PopupContainer outOfGameEdition withGradient className={`background-fill ${className}`} style={{ width: 'unset', zIndex: 1 }}>
           <Container>
             <Label fontSize={13} outGameEditionView fontFamily="syncopate">
-              Gas Station
+              Gas Station 
             </Label>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <Label labelStyle={{ marginRight: 8, marginTop: 8 }}>Off</Label>
