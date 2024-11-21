@@ -22,7 +22,7 @@ export const KaddexWalletProvider = (props) => {
   const { setVerifiedAccount, logout, account } = useAccountContext();
   const { wallet, setSelectedWallet, signingWallet } = useWalletContext();
   const { showNotification, STATUSES } = useNotificationContext();
-
+  
   const initialize = useCallback(() => {
     const { kadena } = window;
     setKadenaExt(kadena);

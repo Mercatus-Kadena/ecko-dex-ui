@@ -32,7 +32,7 @@ export const PactProvider = (props) => {
   const wallet = useWalletContext();
   const notificationContext = useNotificationContext();
 
-  const [slippage, setSlippage] = useState(savedSlippage ? savedSlippage : 0.05);
+  const [slippage, setSlippage] = useState(savedSlippage ? savedSlippage : 0.01);
   const [ttl, setTtl] = useState(savedTtl ? savedTtl : 600);
   const [pairReserve, setPairReserve] = useState('');
   const [multihopsReserves, setMultihopsReserves] = useState(null);

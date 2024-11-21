@@ -205,7 +205,7 @@ const renderColumns = (history, allTokens, width, searchValue, setSearchValue) =
 },
     {
       name: 'price',
-      width: width <= theme().mediaQueries.mobilePixel ? 90 : 100,
+      width: width <= theme().mediaQueries.mobilePixel ? 120 : 100,
       sortBy: 'tokenUsdPrice',
       render: ({ item }) => (
         <ScalableCryptoContainer className="align-ce pointer h-100" onClick={() => history.push(ROUTE_TOKEN_INFO.replace(':token', item.statsId))}>
