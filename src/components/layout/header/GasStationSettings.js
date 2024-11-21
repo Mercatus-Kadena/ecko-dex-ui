@@ -148,7 +148,6 @@ const WarningAnimated = styled(WarningIcon)`
 const GasStationSettings = ({ className, hasNotification }) => {
   const pact = usePactContext();
   const wallet = useWalletContext();
-  console.log('wallet', wallet);
   const { resolutionConfiguration } = useApplicationContext();
   const [showGasStationSettings, setShowGasStationSettings] = useState(false);
   const [currentSection, setCurrentSection] = useState('SWAP');
