@@ -1,7 +1,7 @@
 const wrapperConfig = {
-    'coin:kaddex.kdx': { isBoosted: false },
-    'coin:n_b742b4e9c600892af545afb408326e82a6c0c6ed.zUSD': { isBoosted: false },
-    'coin:free.crankk01': { isBoosted: false }
+    'coin:kaddex.kdx': { isBoosted: true },
+    'coin:n_b742b4e9c600892af545afb408326e82a6c0c6ed.zUSD': { isBoosted: true },
+    'coin:free.crankk01': { isBoosted: true }
   };
   
   export const isWrapperBoosted = (token0, token1) => {
