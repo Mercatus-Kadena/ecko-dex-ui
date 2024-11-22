@@ -46,7 +46,7 @@ export const PactProvider = (props) => {
   const [tokensUsdPrice, setTokensUsdPrice] = useState(null);
   const [tokensKdaPrice, setTokensKdaPrice] = useState(null);
 
-  const [enableGasStation, setEnableGasStation] = useState(true);
+  const [enableGasStation, setEnableGasStation] = useState(false);
   const [gasConfiguration, setGasConfiguration] = useState(GAS_OPTIONS.DEFAULT.SWAP);
   const [networkGasData, setNetworkGasData] = useState(initialNetworkGasData);
 

@@ -105,6 +105,15 @@ export const SwapSuccessView = ({ loading, sendTransaction, fromValues }) => {
   const { account } = useAccountContext();
   const pact = usePactContext();
   const swap = useSwapContext();
+  console.log("Swap Result Data:", {
+    fullResult: swap?.localRes?.result?.data,
+    token0: swap?.localRes?.result?.data[0],
+    token1: swap?.localRes?.result?.data[1],
+    token2: swap?.localRes?.result?.data[2],
+    computeOut: pact?.computeOut(fromValues.amount),
+    fromValues
+  });
+
   const { themeMode } = useApplicationContext();
   const amountBWithSlippage =
     extractDecimal(swap?.localRes?.result?.data[1]?.amount) - extractDecimal(swap?.localRes?.result?.data[1]?.amount) * pact.slippage;
