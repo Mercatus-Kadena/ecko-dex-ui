@@ -556,10 +556,8 @@ const SwapContainer = () => {
   };
 
   const sendTransaction = () => {
-    console.log('sendTransaction');
     setLoading(true);
     pact.txSend();
-    console.log('sendTransaction step 2');
     setShowTxModal(false);
     modalContext.closeModal();
     setFromValues((prev) => ({

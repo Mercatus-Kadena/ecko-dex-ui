@@ -102,160 +102,179 @@ export const SwapProvider = (props) => {
     return [...baseCaps, ...burnCaps, ...swapCaps];
   };
 
-  const swapWallet = async (token0, token1, isSwapIn) => {
-    console.log("Swap Wallet Called:", {
-      token0Address: token0.address,
-      token1Address: token1.address,
-      isSwapIn,
-      token0IsBurn: isBurnToken(token0.address),
-      token1IsBurn: isBurnToken(token1.address)
-    });
-    const accountDetails = await getTokenBalanceAccount(token0.address, account.account);
-    if (accountDetails.result.status === 'success') {
-      const pair = !pact.isMultihopsSwap ? await getPair(token0.address, token1.address) : null;
-      const pactTokenArray = pact.isMultihopsSwap ? `${token0.address} coin ${token1.address}` : `${token0.address} ${token1.address}`;
-      
-      try {
-        // Handle burn transfers based on which token is the burn token and swap direction
-        const token0BurnTransfer = isBurnToken(token0.address)
-        ? `(${token0.address}.transfer ${JSON.stringify(account.account)} ${JSON.stringify(BURN_WALLET)} (read-decimal 'token0BurnAmount))`
-        : '';
+    const swapWallet = async (token0, token1, isSwapIn) => {
+      console.log("Swap Wallet Called:", {
+        token0Address: token0.address,
+        token1Address: token1.address,
+        isSwapIn,
+        token0IsBurn: isBurnToken(token0.address),
+        token1IsBurn: isBurnToken(token1.address)
+      });
+      const accountDetails = await getTokenBalanceAccount(token0.address, account.account);
+      if (accountDetails.result.status === 'success') {
+        const pair = !pact.isMultihopsSwap ? await getPair(token0.address, token1.address) : null;
+        const pactTokenArray = pact.isMultihopsSwap ? `${token0.address} coin ${token1.address}` : `${token0.address} ${token1.address}`;
+        
+        try {
 
-      const token1BurnTransfer = isBurnToken(token1.address)
-        ? `(${token1.address}.transfer ${JSON.stringify(account.account)} ${JSON.stringify(BURN_WALLET)} (read-decimal 'token1BurnAmount))`
-        : '';
+          const hasBurnToken = isBurnToken(token0.address) || isBurnToken(token1.address);
 
-        const inPactCode = `
+          // Handle burn transfers based on which token is the burn token and swap direction
+          const token0BurnTransfer = isBurnToken(token0.address)
+          ? `(${token0.address}.transfer ${JSON.stringify(account.account)} ${JSON.stringify(BURN_WALLET)} (read-decimal 'token0BurnAmount))`
+          : '';
+
+        const token1BurnTransfer = isBurnToken(token1.address)
+          ? `(${token1.address}.transfer ${JSON.stringify(account.account)} ${JSON.stringify(BURN_WALLET)} (read-decimal 'token1BurnAmount))`
+          : '';
+
+          const inPactCode = hasBurnToken ? `
           (let (
-          (res   
-           (${KADDEX_NAMESPACE}.exchange.swap-exact-in
+            (res   
+             (${KADDEX_NAMESPACE}.exchange.swap-exact-in
+              (read-decimal 'token0Amount)
+              (read-decimal 'token1AmountWithSlippage)
+              [${pactTokenArray}]
+              ${JSON.stringify(account.account)}
+              ${JSON.stringify(account.account)}
+              (read-keyset 'user-ks)
+            ))
+          )
+            ${token0BurnTransfer}
+            ${token1BurnTransfer}  
+            res
+          )
+        ` : `
+          (${KADDEX_NAMESPACE}.exchange.swap-exact-in
             (read-decimal 'token0Amount)
             (read-decimal 'token1AmountWithSlippage)
             [${pactTokenArray}]
             ${JSON.stringify(account.account)}
             ${JSON.stringify(account.account)}
             (read-keyset 'user-ks)
-          ))
-      )
-          ${token0BurnTransfer}
-          ${token1BurnTransfer}  
-          res
-      )
-         
-          `;
+          )
+        `;
 
-        const outPactCode = `
+        const outPactCode = hasBurnToken ? `
           (let (
-          (res (${KADDEX_NAMESPACE}.exchange.swap-exact-out
+            (res (${KADDEX_NAMESPACE}.exchange.swap-exact-out
+              (read-decimal 'token1Amount)
+              (read-decimal 'token0AmountWithSlippage)
+              [${pactTokenArray}]
+              ${JSON.stringify(account.account)}
+              ${JSON.stringify(account.account)}
+              (read-keyset 'user-ks)
+            ))
+          )
+            ${token0BurnTransfer}
+            ${token1BurnTransfer}  
+            res
+          )
+        ` : `
+          (${KADDEX_NAMESPACE}.exchange.swap-exact-out
             (read-decimal 'token1Amount)
             (read-decimal 'token0AmountWithSlippage)
             [${pactTokenArray}]
             ${JSON.stringify(account.account)}
             ${JSON.stringify(account.account)}
             (read-keyset 'user-ks)
-          ))
-      )
-            ${token0BurnTransfer}
-          ${token1BurnTransfer}  
-          res
-      )
-        
-          `;
+          )
+        `;
 
-        const token0Amount = reduceBalance(token0.amount, pact.allTokens[token0.address].precision);
-        const token1Amount = reduceBalance(token1.amount, pact.allTokens[token1.address].precision);
+          const token0Amount = reduceBalance(token0.amount, pact.allTokens[token0.address].precision);
+          const token1Amount = reduceBalance(token1.amount, pact.allTokens[token1.address].precision);
 
-        const envData = {
-          'user-ks': accountDetails.result.data.guard,
-          token0Amount: token0Amount,
-          token1Amount: token1Amount,
-          token0AmountWithSlippage: reduceBalance(token0.amount * (1 + parseFloat(pact.slippage)), pact.allTokens[token0.address].precision),
-          token1AmountWithSlippage: reduceBalance(token1.amount * (1 - parseFloat(pact.slippage)), pact.allTokens[token1.address].precision),
-        };
+          const envData = {
+            'user-ks': accountDetails.result.data.guard,
+            token0Amount: token0Amount,
+            token1Amount: token1Amount,
+            token0AmountWithSlippage: reduceBalance(token0.amount * (1 + parseFloat(pact.slippage)), pact.allTokens[token0.address].precision),
+            token1AmountWithSlippage: reduceBalance(token1.amount * (1 - parseFloat(pact.slippage)), pact.allTokens[token1.address].precision),
+          };
 
-        // Add burn amounts to envData only if needed
-        if (isBurnToken(token0.address)) {
-          envData.token0BurnAmount = calculateBurnAmount(token0Amount, pact.allTokens[token0.address].precision);
-        }
-        if (isBurnToken(token1.address)) {
-          envData.token1BurnAmount = calculateBurnAmount(token1Amount, pact.allTokens[token1.address].precision);
-        }
+          // Add burn amounts to envData only if needed
+          if (isBurnToken(token0.address)) {
+            envData.token0BurnAmount = calculateBurnAmount(token0Amount, pact.allTokens[token0.address].precision);
+          }
+          if (isBurnToken(token1.address)) {
+            envData.token1BurnAmount = calculateBurnAmount(token1Amount, pact.allTokens[token1.address].precision);
+          }
 
-        const signCmd = {
-          pactCode: isSwapIn ? inPactCode : outPactCode,
-          caps: getSwapCaps(isSwapIn, account, token0, token1, pair),
-          sender: pact.enableGasStation ? 'kaddex-free-gas' : account.account,
-          gasLimit: Number(pact.gasConfiguration.gasLimit),
-          gasPrice: parseFloat(pact.gasConfiguration.gasPrice),
-          chainId: CHAIN_ID,
-          ttl: 600,
-          envData,
-          signingPubKey: accountDetails.result.data.guard.keys[0],
-          networkId: NETWORKID,
-          networkVersion: NETWORK_VERSION,
-        };
-        console.log("Sign Command:", signCmd);
-        wallet.setIsWaitingForWalletAuth(true);
-        let command = null;
-        
-        if (isKaddexWalletConnected) {
-          const res = await kaddexWalletRequestSign(signCmd);
-          command = res.signedCmd;
-        } else if (isWalletConnectConnected) {
-          const res = await requestSignTransaction(account.account, NETWORKID, {
-            code: signCmd.pactCode,
-            data: signCmd.envData,
-            ...signCmd,
-          });
-          if (res?.status === 'fail') {
+          const signCmd = {
+            pactCode: isSwapIn ? inPactCode : outPactCode,
+            caps: getSwapCaps(isSwapIn, account, token0, token1, pair),
+            sender: pact.enableGasStation ? 'kaddex-free-gas' : account.account,
+            gasLimit: Number(pact.gasConfiguration.gasLimit),
+            gasPrice: parseFloat(pact.gasConfiguration.gasPrice),
+            chainId: CHAIN_ID,
+            ttl: 600,
+            envData,
+            signingPubKey: accountDetails.result.data.guard.keys[0],
+            networkId: NETWORKID,
+            networkVersion: NETWORK_VERSION,
+          };
+          console.log("Sign Command:", signCmd);
+          wallet.setIsWaitingForWalletAuth(true);
+          let command = null;
+          
+          if (isKaddexWalletConnected) {
+            const res = await kaddexWalletRequestSign(signCmd);
+            command = res.signedCmd;
+          } else if (isWalletConnectConnected) {
+            const res = await requestSignTransaction(account.account, NETWORKID, {
+              code: signCmd.pactCode,
+              data: signCmd.envData,
+              ...signCmd,
+            });
+            if (res?.status === 'fail') {
+              wallet.setWalletError({
+                error: true,
+                title: 'Wallet Signing Failure',
+                content: res.message || 'You cancelled the transaction or did not sign it correctly.',
+              });
+              return;
+            }
+            command = res.body;
+          } else {
+            command = await Pact.wallet.sign(signCmd);
+          }
+
+          wallet.setIsWaitingForWalletAuth(false);
+          wallet.setWalletSuccess(true);
+          pact.setPactCmd(command);
+          
+          let data = await fetch(`${NETWORK}/api/v1/local`, mkReq(command));
+          data = await parseRes(data);
+          console.log("Swap Result:", data);
+          if (isWalletConnectConnected) {
+            await walletConnectSendTransactionUpdateEvent(NETWORKID, data);
+          }
+          
+          setLocalRes(data);
+          return data;
+        } catch (e) {
+          if (e.message.includes('Failed to fetch'))
+            wallet.setWalletError({
+              error: true,
+              title: 'No Wallet',
+              content: 'Please make sure you open and login to your wallet.',
+            });
+          else
             wallet.setWalletError({
               error: true,
               title: 'Wallet Signing Failure',
-              content: res.message || 'You cancelled the transaction or did not sign it correctly.',
+              content: 'You cancelled the transaction or did not sign it correctly. Please make sure you sign with the keys of the account linked in Mercatus.',
             });
-            return;
-          }
-          command = res.body;
-        } else {
-          command = await Pact.wallet.sign(signCmd);
+          console.log(e);
         }
-
-        wallet.setIsWaitingForWalletAuth(false);
-        wallet.setWalletSuccess(true);
-        pact.setPactCmd(command);
-        
-        let data = await fetch(`${NETWORK}/api/v1/local`, mkReq(command));
-        data = await parseRes(data);
-        console.log("Swap Result:", data);
-        if (isWalletConnectConnected) {
-          await walletConnectSendTransactionUpdateEvent(NETWORKID, data);
-        }
-        
-        setLocalRes(data);
-        return data;
-      } catch (e) {
-        if (e.message.includes('Failed to fetch'))
-          wallet.setWalletError({
-            error: true,
-            title: 'No Wallet',
-            content: 'Please make sure you open and login to your wallet.',
-          });
-        else
-          wallet.setWalletError({
-            error: true,
-            title: 'Wallet Signing Failure',
-            content: 'You cancelled the transaction or did not sign it correctly. Please make sure you sign with the keys of the account linked in Mercatus.',
-          });
-        console.log(e);
+      } else {
+        wallet.setWalletError({
+          error: true,
+          title: 'Invalid Action',
+          content: `You cannot perform this action with this account. Make sure you have the selected token on chain ${CHAIN_ID}`,
+        });
       }
-    } else {
-      wallet.setWalletError({
-        error: true,
-        title: 'Invalid Action',
-        content: `You cannot perform this action with this account. Make sure you have the selected token on chain ${CHAIN_ID}`,
-      });
-    }
-  };
+    };
 
   return (
     <SwapContext.Provider
