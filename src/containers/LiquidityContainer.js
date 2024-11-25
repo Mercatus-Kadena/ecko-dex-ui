@@ -86,28 +86,8 @@ const LiquidityContainer = () => {
 
           <FlexContainer className="justify-sb" gap={16} mobilePixel={530}>
             <FlexContainer gap={16}>
-              {(pathname === ROUTE_LIQUIDITY_TOKENS || pathname === ROUTE_LIQUIDITY_POOLS) && (
-                <MobileButton
-                  background={verifiedActive ? theme(themeMode).colors.white : 'transparent'}
-                  color={theme(themeMode).colors.white}
-                  onClick={() => {
-                    if (verifiedActive) {
-                      setVerifiedActive(false);
-                    } else {
-                      setVerifiedActive(true);
-                    }
-                  }}
-                >
-                  <VerifiedBoldLogo className={verifiedActive ? 'svg-app-inverted-color' : 'svg-app-color'} />
-                </MobileButton>
-              )}
-              <MobileButton
-                background={pathname === ROUTE_LIQUIDITY_REWARDS ? commonColors.pink : 'transparent'}
-                color={commonColors.pink}
-                onClick={() => history.push(ROUTE_LIQUIDITY_REWARDS)}
-              >
-                <BoosterIcon className={pathname === ROUTE_LIQUIDITY_REWARDS ? 'svg-app-color' : ''} />
-              </MobileButton>
+              
+          
               <MobileButton
                 background={pathname === ROUTE_LIQUIDITY_MY_LIQUIDITY ? theme(themeMode).colors.white : 'transparent'}
                 color={theme(themeMode).colors.white}
