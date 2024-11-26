@@ -122,10 +122,9 @@ const SwapContainer = () => {
 
   useEffect(() => {
     if (!pact.allTokens) {
-      console.log("Waiting for tokens to load...");
       return;
     }
-      
+        
     const fromToken = initialTokens.current.token0 
       ? Object.values(pact.allTokens).find(t => 
           t.name.toLowerCase() === initialTokens.current.token0.toLowerCase() ||
@@ -139,26 +138,24 @@ const SwapContainer = () => {
           t.code.toLowerCase() === initialTokens.current.token1.toLowerCase()
         )
       : null;
-    
-    // Only update if we found matching tokens
-    if (fromToken) {
+      
+    if (fromToken && toToken) {
       setFromValues(prev => ({
         ...prev,
         coin: fromToken.name,
         address: fromToken.code,
         precision: fromToken.precision
       }));
-    }
   
-    if (toToken) {
       setToValues(prev => ({
         ...prev,
-        coin: toToken.name,
+        coin: toToken.name, 
         address: toToken.code,
         precision: toToken.precision
       }));
-    }
   
+      setFetchData(true); 
+    }
   }, [pact.allTokens])
 
   const [fromValues, setFromValues] = useState({
@@ -176,8 +173,6 @@ const SwapContainer = () => {
     address: pact.allTokens?.[query.get('token1')] ? pact.allTokens?.[query.get('token1')]?.code : `n_582fed11af00dc626812cd7890bb88e72067f28c.bro`,
     precision: pact.allTokens?.[query.get('token1')] ? pact.allTokens?.[query.get('token1')]?.precision : 12,
   });
-
-
 
   const [inputSide, setInputSide] = useState('');
   const [fromNote, setFromNote] = useState('');

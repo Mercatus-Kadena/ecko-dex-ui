@@ -197,6 +197,7 @@ export const PactProvider = (props) => {
         });
       }
     }
+
     setTokensUsdPrice(resultUsd);
     setTokensKdaPrice(resultKda);
   };
