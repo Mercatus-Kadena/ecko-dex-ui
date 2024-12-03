@@ -344,8 +344,9 @@ export const LiquidityProvider = (props) => {
         const res = await xWalletRequestSign(signCmd);
         cmd = res.signedCmd;
       } else if (isWalletConnectConnected) {
+        console.log("inside iswalletconnect")
         const res = await walletConnectRequestSign(account.account, NETWORKID, signCmd);
-        cmd = res.signedCmd;
+        cmd = res.body;
       } else {
         cmd = await Pact.wallet.sign(signCmd);
       }
@@ -453,7 +454,7 @@ export const LiquidityProvider = (props) => {
         cmd = res.signedCmd;
       } else if (isWalletConnectConnected) {
         const res = await walletConnectRequestSign(account.account, NETWORKID, signCmd);
-        cmd = res.signedCmd;
+        cmd = res.body;
       } else {
         cmd = await Pact.wallet.sign(signCmd);
       }
