@@ -15,9 +15,7 @@ import {
   ROUTE_LIQUIDITY_TOKENS,
   ROUTE_LIQUIDITY_MY_LIQUIDITY,
   ROUTE_LIQUIDITY_POOLS,
-  ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED,
   ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED,
-  ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_SINGLE_SIDED,
   ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_DOUBLE_SIDED,
   ROUTE_LIQUIDITY_REWARDS,
   ROUTE_LIQUIDITY_CREATE_PAIR,
@@ -59,13 +57,13 @@ export default () => {
             />
             <Route
               exact
-              path={[ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED, ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED]}
+              path={[ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED]}
               component={AddLiquidityContainer}
             />
             <Route exact path={[ROUTE_LIQUIDITY_CREATE_PAIR]} component={CreatePairContainer} />
             <Route
               exact
-              path={[ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_SINGLE_SIDED, ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_DOUBLE_SIDED]}
+              path={[ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_DOUBLE_SIDED]}
               component={RemoveLiquidityContainer}
             />
             <Route exact path={[ROUTE_ANALYTICS, ROUTE_ANALYTICS_STATS]} component={AnalyticsContainer} />

@@ -13,7 +13,6 @@ import RewardBooster from '../components/liquidity/RewardBooster';
 import {
   ROUTE_LIQUIDITY_MY_LIQUIDITY,
   ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_DOUBLE_SIDED,
-  ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_SINGLE_SIDED,
 } from '../router/routes';
 import { getPairList, getPairListAccountBalance } from '../api/pact';
 import useQueryParams from '../hooks/useQueryParams';
@@ -117,15 +116,19 @@ const RemoveLiquidityContainer = (props) => {
     }
   }, [account, allPairs]);
 
-  useEffect(() => {
-    if (pathname && pair) {
-      if (pathname === ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_SINGLE_SIDED && pair.notAllowedRemoveSingleSide) {
-        history.push(ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_DOUBLE_SIDED.concat(`?token0=${query.get('token0')}&token1=${query.get('token1')}`), {
-          from: props?.location?.state?.from,
-        });
+useEffect(() => {
+  if (pathname && pair?.notAllowedRemoveSingleSide) {
+    history.push(
+      ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_DOUBLE_SIDED.concat(
+        `?token0=${query.get('token0')}&token1=${query.get('token1')}`
+      ),
+      {
+        from: props?.location?.state?.from,
       }
-    }
-  }, [pair, pathname]);
+    );
+  }
+}, [pair, pathname]);
+
 
   return loading ? (
     <AppLoader className="h-100 w-100 justify-ce align-ce" />
@@ -168,19 +171,7 @@ const RemoveLiquidityContainer = (props) => {
             pair={pair}
           />
           <FlexContainer gap={24}>
-            {!pair.notAllowedRemoveSingleSide && (
-              <Label
-                fontFamily="syncopate"
-                withShade={pathname !== ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_SINGLE_SIDED}
-                onClick={() =>
-                  history.push(ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_SINGLE_SIDED.concat(`?token0=${query.get('token0')}&token1=${query.get('token1')}`), {
-                    from: props?.location?.state?.from,
-                  })
-                }
-              >
-                SINGLE-SIDED
-              </Label>
-            )}
+         
             <Label
               fontFamily="syncopate"
               withShade={pathname !== ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_DOUBLE_SIDED}
@@ -193,9 +184,7 @@ const RemoveLiquidityContainer = (props) => {
               DOUBLE-SIDED
             </Label>
           </FlexContainer>
-          {pathname === ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_SINGLE_SIDED && (
-            <RemoveSingleSideLiquidity pair={pair} previewObject={previewObject} previewAmount={previewAmount} setPreviewAmount={setPreviewAmount} />
-          )}
+       
           {pathname === ROUTE_LIQUIDITY_REMOVE_LIQUIDITY_DOUBLE_SIDED && (
             <RemoveDoubleSideLiquidity pair={pair} previewObject={previewObject} previewAmount={previewAmount} setPreviewAmount={setPreviewAmount} />
           )}
