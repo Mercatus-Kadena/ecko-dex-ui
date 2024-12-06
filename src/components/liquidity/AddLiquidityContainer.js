@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { ArrowBack } from '../../assets';
-import { ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED, ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED, ROUTE_LIQUIDITY_TOKENS } from '../../router/routes';
+import { ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED, ROUTE_LIQUIDITY_TOKENS } from '../../router/routes';
 import SlippagePopupContent from '../layout/header/SlippagePopupContent';
 import { FlexContainer } from '../shared/FlexContainer';
 import Label from '../shared/Label';
@@ -265,19 +265,7 @@ const AddLiquidityContainer = (props) => {
       />
 
 <FlexContainer gap={24}>
-  <Label
-    fontFamily="syncopate"
-    withShade={pathname !== ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED}
-    onClick={() => {
-      const token0 = query.get('token0');
-      const token1 = query.get('token1');
-      history.push(ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED.concat(`?token0=${token0}&token1=${token1}`), {
-        from: fromLocation,
-      });
-    }}
-  >
-    SINGLE-SIDED
-  </Label>
+
   <Label
     fontFamily="syncopate"
     withShade={pathname !== ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED}
@@ -293,17 +281,7 @@ const AddLiquidityContainer = (props) => {
   </Label>
 </FlexContainer>
           <>
-      {pathname === ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED && (
-        <SingleSidedLiquidity
-          apr={apr}
-          pools={data?.pools}
-          pair={pair}
-          pairCode={pairCode}
-          onPairChange={(token0, token1) => {
-            updatePairAndNavigate(token0, token1, ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED);
-          }}
-        />
-      )}
+   
       {pathname === ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED && (
         <DoubleSidedLiquidity
           pair={pair}

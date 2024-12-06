@@ -24,7 +24,7 @@ import TradingViewChart from '../components/charts/TradingViewChart';
 import TransactionsTablePool from '../components/transactions/TransactionsTablePool';
 
 import UsdKdaPrice from '../components/shared/UsdKdaPrice';
-import { ROUTE_ANALYTICS_STATS, ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED, ROUTE_SWAP } from '../router/routes';
+import { ROUTE_ANALYTICS_STATS, ROUTE_SWAP } from '../router/routes';
 import Banner from '../components/layout/header/Banner';
 import {DEFAULT_ICON_URL} from '../constants/cryptoCurrencies';
 
@@ -309,7 +309,7 @@ const PoolInfoContainer = () => {
       >
         SWAP
       </CustomButton>
-      <CustomButton
+      {/* <CustomButton
         fontSize={13}
         buttonStyle={{ height: 33, width: 200 }}
         type="secondary"
@@ -321,7 +321,7 @@ const PoolInfoContainer = () => {
         }
       > 
         ADD LIQUIDITY
-      </CustomButton>
+      </CustomButton> */}
     </>
   );
 
