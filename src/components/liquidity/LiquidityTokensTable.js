@@ -7,7 +7,7 @@ import { humanReadableNumber, reduceBalance } from '../../utils/reduceBalance';
 import AppLoader from '../shared/AppLoader';
 import { AddIcon, BoosterIcon, TradeUpIcon } from '../../assets';
 import {DEFAULT_ICON_URL} from '../../constants/cryptoCurrencies';
-import { ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED, ROUTE_LIQUIDITY_TOKENS, ROUTE_TOKEN_INFO } from '../../router/routes';
+import { ROUTE_LIQUIDITY_TOKENS, ROUTE_TOKEN_INFO } from '../../router/routes';
 import { CryptoContainer, FlexContainer } from '../shared/FlexContainer';
 import Label from '../shared/Label';
 import { getAllPairsData } from '../../utils/token-utils';
@@ -92,14 +92,7 @@ const LiquidityTokensTable = () => {
       items={tokenList}
       columns={renderColumns(history, allTokens, width, searchValue, setSearchValue)}
       actions={[
-        {
-          icon: () => <AddIcon />,
-          onClick: (item) => {
-            history.push(ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED.concat(`?token0=${item.name}&token1=KDA`), {
-              from: ROUTE_LIQUIDITY_TOKENS,
-            });
-          },
-        },
+       
         {
           icon: () => (
             <FlexContainer

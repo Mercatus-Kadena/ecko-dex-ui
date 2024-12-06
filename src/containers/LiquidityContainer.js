@@ -17,7 +17,6 @@ import { useApplicationContext } from '../contexts';
 import useWindowSize from '../hooks/useWindowSize';
 import {
   ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED,
-  ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED,
   ROUTE_LIQUIDITY_CREATE_PAIR,
   ROUTE_LIQUIDITY_MY_LIQUIDITY,
   ROUTE_LIQUIDITY_POOLS,
@@ -86,8 +85,6 @@ const LiquidityContainer = () => {
 
           <FlexContainer className="justify-sb" gap={16} mobilePixel={530}>
             <FlexContainer gap={16}>
-              
-          
               <MobileButton
                 background={pathname === ROUTE_LIQUIDITY_MY_LIQUIDITY ? theme(themeMode).colors.white : 'transparent'}
                 color={theme(themeMode).colors.white}
@@ -98,10 +95,9 @@ const LiquidityContainer = () => {
               <MobileButton
                 color={theme(themeMode).colors.white}
                 onClick={() =>
-                  history.push(
-                    pathname === ROUTE_LIQUIDITY_TOKENS ? ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED : ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED,
-                    { from: pathname }
-                  )
+                  history.push(ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED, {
+                    from: pathname,
+                  })
                 }
               >
                 <AddLiquidityLogo />
@@ -123,8 +119,6 @@ const LiquidityContainer = () => {
           /* DESKTOP & TABLET */
 
           <FlexContainer gap={16} mobilePixel={530}>
-            
-      
             <CustomButton
               fontSize={13}
               buttonStyle={{ height: 33 }}
@@ -146,10 +140,9 @@ const LiquidityContainer = () => {
               type="primary"
               fontFamily="syncopate"
               onClick={() =>
-                history.push(
-                  pathname === ROUTE_LIQUIDITY_TOKENS ? ROUTE_LIQUIDITY_ADD_LIQUIDITY_SINGLE_SIDED : ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED,
-                  { from: pathname }
-                )
+                history.push(ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED, {
+                  from: pathname,
+                })
               }
             >
               ADD LIQUIDITY
