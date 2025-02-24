@@ -26,7 +26,6 @@ export const loadTokens = async () => {
     
     
     tokenData = tokenData.filter(([_, token]) => token.code !== "n_95d7fe012aa7e05c187b3fc8c605ff3b1a2c521d.MesutÖzilDönerKebabMerkel42Inu");
-    console.log('tokenData', tokenData)
     return {data:tokenData, blacklist:data.blacklist}
 
   } catch (err) {
