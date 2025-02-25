@@ -127,7 +127,14 @@ export const PactProvider = (props) => {
    }
 
   useEffect(() => {if(tokensBlacklist && tokensBlacklist.length > 0)
-                      getPairs().then( (data) => { const flt_data = data.filter(filter_pair_by_blacklist);
+                      getPairs().then( (data) => { 
+                        // const flt_data = data.filter(filter_pair_by_blacklist);
+                        let flt_data = data.filter(filter_pair_by_blacklist);
+        
+                        flt_data = flt_data.filter((token) => 
+                          token !== "coin:n_95d7fe012aa7e05c187b3fc8c605ff3b1a2c521d.MesutÖzilDönerKebabMerkel42Inu"
+                        );
+                        // console.log("Pairs list recieved from Pact node", flt_data)
                                                    console.log("Pairs list recieved from Pact node")
                                                    setAllPairs( (prev) => update_unverified(prev, flt_data.map(pair_to_pair_object)));
                                                    setAllTokens( (prev) => update_unverified(prev, flt_data.map(pair_to_token)))
@@ -174,7 +181,11 @@ export const PactProvider = (props) => {
 
   useEffect(() => {if(!tokensBlacklist || tokensBlacklist.length === 0)
                       return
-                   getAnalyticsDexscanPoolsData().then( (data) => { const flt_data = data.filter(filter_apipair_by_blacklist);
+                   getAnalyticsDexscanPoolsData().then( (data) => { 
+                    // const flt_data = data.filter(filter_apipair_by_blacklist);
+                    let flt_data = data.filter(filter_apipair_by_blacklist);
+
+                  flt_data = flt_data.filter((item) => item.id !== "KDA:KEBAB");
                                                                     console.log("Pairs list recieved from backend")
                                                                     setAllPairs( (prev) => update_unverified(prev, flt_data.map(apipair_to_pair_object)));
                                                                     setAllTokens( (prev) => update_unverified(prev, flt_data.map(apipair_to_token)))

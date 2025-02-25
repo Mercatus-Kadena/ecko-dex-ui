@@ -21,7 +21,11 @@ export const loadTokens = async () => {
     const response = await fetch(TOKENS_REPOS_URL + "/tokens.yaml");
     const yamlText = await response.text();
     const data = jsYaml.load(yamlText);
-    const tokenData = Object.entries(data[environment]).map(([k,v]) => [k, normalize_token(k,v)])
+    // const tokenData = Object.entries(data[environment]).map(([k,v]) => [k, normalize_token(k,v)])
+    let tokenData = Object.entries(data[environment]).map(([k, v]) => [k, normalize_token(k, v)]);
+    
+    
+    tokenData = tokenData.filter(([_, token]) => token.code !== "n_95d7fe012aa7e05c187b3fc8c605ff3b1a2c521d.MesutÖzilDönerKebabMerkel42Inu");
     return {data:tokenData, blacklist:data.blacklist}
 
   } catch (err) {
