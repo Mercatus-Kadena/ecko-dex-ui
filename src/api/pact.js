@@ -125,24 +125,14 @@ export const getPairList = async (allPairs) => {
 
 export const getPairListAccountBalance = async (account, allPairs) => {
   try {
-    const tokenPairListWithBooster = Object.values(allPairs)
-      .filter((pair) => isWrapperBoosted(pair.token0_code, pair.token1_code))
-      .reduce((accum, pair) => {
-        accum += `[${pair.name.split(':').join(' ')}] `;
-        return accum;
-      }, '');
+    const tokenPairList = Object.values(allPairs).reduce((accum, pair) => {
+      accum += `[${pair.name.split(':').join(' ')}] `;
+      return accum;
+    }, '');
 
-    const tokenPairListWithoutBooster = Object.values(allPairs)
-      .filter((pair) => !isWrapperBoosted(pair.token0_code, pair.token1_code))
-      .reduce((accum, pair) => {
-        accum += `[${pair.name.split(':').join(' ')}] `;
-        return accum;
-      }, '');
 
-    const boosterResult = await dataWithBooster(account, tokenPairListWithBooster, allPairs);
-    const noBoosterResult = await dataWithoutBooster(account, tokenPairListWithoutBooster, allPairs);
-    const totalResult = boosterResult.concat(noBoosterResult);
-    return totalResult;
+    const result = await dataWithoutBooster(account, tokenPairList, allPairs);
+    return result;
   } catch (e) {
     return handleError(e);
   }
@@ -235,18 +225,16 @@ const dataWithoutBooster = async (account, tokenPairList, allPairs) => {
       return accum;
     }, {});
 
-
-    const pairList = Object.values(allPairs)
-      .filter((pair) => !isWrapperBoosted(pair.token0_code, pair.token1_code))
-      .map((pair) => {
-        const pairData = dataList[pair.name];
-        const result = {
-          ...pair,
-          ...(pairData || {}),  
-          isBoosted: false,
-        };
-        return result;
-      });
+    // Process all pairs through the non-boosted path
+    const pairList = Object.values(allPairs).map((pair) => {
+      const pairData = dataList[pair.name];
+      const result = {
+        ...pair,
+        ...(pairData || {}),  
+        isBoosted: false, // Sets all pairs as non-boosted to avoid issues
+      };
+      return result;
+    });
 
     return pairList;
   }
@@ -254,77 +242,10 @@ const dataWithoutBooster = async (account, tokenPairList, allPairs) => {
 };
 
 const dataWithBooster = async (account, tokenPairList, allPairs) => {
-  let data = await pactFetchLocal(
-    `(namespace 'free)
-
-    (module ${KADDEX_NAMESPACE}-read G
-
-      (defcap G ()
-        true)
-
-      (defun pair-info (pairList:list)
-        (let* (
-          (token0 (at 0 pairList))
-          (token1 (at 1 pairList))
-          (p (${KADDEX_NAMESPACE}.exchange.get-pair token0 token1))
-          (reserveA (${KADDEX_NAMESPACE}.exchange.reserve-for p token0))
-          (reserveB (${KADDEX_NAMESPACE}.exchange.reserve-for p token1))
-          (result (try {
-            "initialA": 0.0,
-            "feesB": 0.0,
-            "totalB": 0.0,
-            "initialB": 0.0,
-            "feesA": 0.0,
-            "liquidity": 0.0,
-            "user-pool-share": 0.0,
-            "totalA": 0.0,
-            "reserveA":0.0,
-            "reserveB":0.0
-            } (${KADDEX_NAMESPACE}.wrapper.get-user-position-stats token0 token1 ${JSON.stringify(account)})))
-        )
-        [{"initialA":(at 'initialA result),
-        "feesB":(at 'feesB result),
-        "totalB":(at 'totalB result),
-        "initialB":(at 'initialB result),
-        "feesA":(at 'feesA result),
-        "liquidity":(at 'liquidity result),
-        "user-pool-share":(at 'user-pool-share result),
-        "totalA":(at 'totalA result),
-        "reserveA":reserveA,
-        "reserveB":reserveB}]
-      ))
-    )
-    (map (${KADDEX_NAMESPACE}-read.pair-info) [${tokenPairList}])`
-  );
-  if (data) {
-    const dataList = data.map((data) => {
-      let dataObj = {
-        balance: data[0]['liquidity'],
-        pooledAmount: [data[0]['totalA'], data[0]['totalB']],
-        poolShare: data[0]['user-pool-share'],
-        reserves: [data[0]['reserveA'], data[0]['reserveB']],
-      };
-
-      return dataObj;
-    });
-  
-    const pairList = Object.values(allPairs)
-      .filter((pair) => {
-        const isBoosted = isWrapperBoosted(pair.token0_code, pair.token1_code);
-        return isBoosted;
-      })
-      .map((pair, index) => {
-        const result = {
-          ...pair,
-          ...dataList[index],
-          isBoosted: true,
-        };
-        return result;
-      });
-    
-    return pairList;
-  }
+  return [];
 };
+
+
 
 export const getPairAccount = async (token0, token1) => {
   const result = await pactFetchLocal(`(at 'account (${KADDEX_NAMESPACE}.exchange.get-pair ${token0} ${token1}))`);
