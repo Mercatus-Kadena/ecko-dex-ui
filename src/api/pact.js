@@ -65,7 +65,6 @@ export const getPair = async (token0, token1) => {
 };
 
 export const getPairList = async (allPairs) => {
-  console.log('allPairs', allPairs);
   try {
     const tokenPairList = Object.keys(allPairs).reduce((accum, pair) => {
       accum += `[${pair.split(':').join(' ')}] `;
