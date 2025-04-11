@@ -24,7 +24,7 @@ export default [
     id: 0,
     label: 'Token Assets',
     icon: <CodeIcon className="menu-icon" />,
-    link: 'https://github.com/CryptoPascal31/kadena_tokens',
+    link: 'https://github.com/Mercatus-Kadena/kadena_tokens',
   },
   {
     id: 1,
