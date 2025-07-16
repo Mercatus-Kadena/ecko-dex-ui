@@ -86,7 +86,7 @@ const LiquidityPoolsTable = () => {
               </FlexContainer>
             ),
             onClick: (item) => {
-              history.push(ROUTE_POOL_INFO.replace(':pool', `${item.token0}:${item.token1}`), { from: history.location.pathname });
+              history.push(ROUTE_POOL_INFO.replace(':pool', item.id), { from: history.location.pathname });
             },
           },
         ]}
@@ -142,7 +142,7 @@ const renderColumns = (history, allTokens, allPairs, width, searchValue, setSear
         return (
           <ScalableCryptoContainer
             className="pointer"
-            onClick={() => history.push(ROUTE_POOL_INFO.replace(':pool', `${nonKdaToken.name}:${kdaToken.name}`), 
+            onClick={() => history.push(ROUTE_POOL_INFO.replace(':pool', item.id),
             { from: history.location.pathname })}
             style={{
               flexDirection: width <= theme().mediaQueries.mobilePixel ? 'column' : 'row',

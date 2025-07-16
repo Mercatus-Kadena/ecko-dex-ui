@@ -179,6 +179,7 @@ export const getAllPairsData = async (tokensUsdPrice, allTokens, allPairs, _pool
 
       let data = {
         ...pool,
+        id:specificPairData[0]?.id,
         apr,
         multiplier,
         liquidityUsd,
