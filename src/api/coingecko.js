@@ -33,7 +33,7 @@ const failoverGC = async (tokenName) => {
 
 export const getCoingeckoUsdPrice = async (tokenName) => {
   try {
-    const result = await customPactFetchLocal(`(n_bfb76eab37bf8c84359d6552a1d96a309e030b71.dia-oracle.get-value "KDA/USD")`);
+    const result = await customPactFetchLocal(`(n_ca1320b08d580e4db636d5880013fcc015ea9de5.dia-oracle.get-value "KDA/USD")`);
 
     if (result.errorMessage) {
       throw new Error(result.errorMessage);

@@ -36,10 +36,10 @@ export const getPairsMultiplier = async (pairList) => {
   const pactCode = `
   (namespace 'free)
               (module ${KADDEX_NAMESPACE}-read G
-  
+
                 (defcap G ()
                   true)
-  
+
                 (defun multipliers (pairList:list)
                   (let* (
                     (token0 (at 0 pairList))
@@ -52,7 +52,7 @@ export const getPairsMultiplier = async (pairList) => {
               (map (${KADDEX_NAMESPACE}-read.multipliers) [${tokenPairList}])
   `;
   try {
-    let data = await pactFetchLocal(pactCode);
+    let data = []
     if (data) {
       return data.map((x) => ({ ...x, multiplier: extractDecimal(x.multiplier) }));
     }

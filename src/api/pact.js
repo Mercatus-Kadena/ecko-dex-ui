@@ -29,7 +29,7 @@ export const customPactFetchLocal = async (pactCode, options) => {
   let data = await Pact.fetch.local(
     {
       pactCode,
-      meta: Pact.lang.mkMeta('', String(4), GAS_PRICE, 150000, creationTime(), 600),
+      meta: Pact.lang.mkMeta('', String(2), GAS_PRICE, 150000, creationTime(), 600),
       ...options,
     },
     PRICE_NETWORK
@@ -74,12 +74,12 @@ export const getPairList = async (allPairs) => {
     let data = await pactFetchLocal(
       `
               (namespace 'free)
-  
+
               (module ${KADDEX_NAMESPACE}-read G
-  
+
                 (defcap G ()
                   true)
-  
+
                 (defun pair-info (pairList:list)
                   (let* (
                     (token0 (at 0 pairList))
@@ -230,7 +230,7 @@ const dataWithoutBooster = async (account, tokenPairList, allPairs) => {
       const pairData = dataList[pair.name];
       const result = {
         ...pair,
-        ...(pairData || {}),  
+        ...(pairData || {}),
         isBoosted: false, // Sets all pairs as non-boosted to avoid issues
       };
       return result;
@@ -238,7 +238,7 @@ const dataWithoutBooster = async (account, tokenPairList, allPairs) => {
 
     return pairList;
   }
-  return [];  
+  return [];
 };
 
 const dataWithBooster = async (account, tokenPairList, allPairs) => {

@@ -37,8 +37,10 @@ const TVChartContainer = (props) => {
 
     const enabledFeatures = [];
     let defaultInterval = '60';
-    const datefeed_url = new URL("/udf", process.env.REACT_APP_DEXSCAN_API_URL);
-
+    console.log("--------------------------------------")
+    const datefeed_url = new URL("udf", process.env.REACT_APP_DEXSCAN_API_URL);
+    console.log(process.env.REACT_APP_DEXSCAN_API_URL)
+    console.log(datefeed_url)
 
     const widgetOptions = {
       theme: 'Dark',
@@ -46,7 +48,7 @@ const TVChartContainer = (props) => {
       datafeed: new window.Datafeeds.UDFCompatibleDatafeed(datefeed_url),
       interval: defaultInterval,
       container: ref.current,
-      library_path: '/static/charting_library/',
+      library_path: process.env.PUBLIC_URL+ '/static/charting_library/',
       locale: getLanguageFromURL() || 'en',
       disabled_features: [
         'use_localstorage_for_settings',
@@ -61,7 +63,7 @@ const TVChartContainer = (props) => {
       fullscreen: false,
       autosize: true,
       studies_overrides: {},
-      custom_css_url: '/css/CustomTradingViewStyle.css',
+      custom_css_url: process.env.PUBLIC_URL+'/css/CustomTradingViewStyle.css',
       overrides: {
         'paneProperties.background': '#1f2034',
         'paneProperties.backgroundType': 'solid',

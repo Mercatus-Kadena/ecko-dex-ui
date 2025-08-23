@@ -36,7 +36,7 @@ import CreatePairContainer from '../components/liquidity/CreatePairContainer';
 export default () => {
   const { gameEditionView } = useGameEditionContext();
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Layout>
         {gameEditionView ? (
           <Switch>
