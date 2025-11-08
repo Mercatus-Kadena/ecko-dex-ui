@@ -4,7 +4,6 @@ import moment from 'moment';
 import ApexCharts from 'react-apexcharts';
 import { commonColors } from '../../styles/theme';
 import { getDailyCandles } from '../../api/kaddex-stats';
-import { humanReadableNumber } from '../../utils/reduceBalance';
 import { useApplicationContext } from '../../contexts';
 import { FlexContainer } from '../shared/FlexContainer';
 import AppLoader from '../shared/AppLoader';

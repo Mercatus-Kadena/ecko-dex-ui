@@ -11,8 +11,8 @@ import PopupContentList from './PopupContentList';
 import reduceToken from '../../../utils/reduceToken';
 import AccountModal from '../../modals/kdaModals/AccountModal';
 import theme, { commonTheme } from '../../../styles/theme';
-import { ChainIcon, CoinEckoIcon, ThreeDotsIcon } from '../../../assets';
-import { humanReadableNumber, reduceBalance } from '../../../utils/reduceBalance';
+import { ChainIcon, ThreeDotsIcon } from '../../../assets';
+import { reduceBalance } from '../../../utils/reduceBalance';
 import Label from '../../shared/Label';
 import {
   useRightModalContext,
@@ -62,7 +62,7 @@ const RightHeaderItems = () => {
   const { pathname } = useLocation();
   const [width] = useWindowSize();
 
-  const { tokensUsdPrice, networkGasData } = usePactContext();
+  const { networkGasData } = usePactContext();
   const { account } = useAccountContext();
   const { notificationList, removeAllNotifications } = useNotificationContext();
   const modalContext = useModalContext();

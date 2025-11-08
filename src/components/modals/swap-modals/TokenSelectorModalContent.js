@@ -5,7 +5,7 @@ import Label from '../../shared/Label';
 import { PartialScrollableScrollSection } from '../../layout/Containers';
 import useWindowSize from '../../../hooks/useWindowSize';
 import { theme } from '../../../styles/theme';
-import { CloseIcon, VerifiedLogo } from '../../../assets';
+import { CloseIcon } from '../../../assets';
 import { useApplicationContext, useGameEditionContext, usePactContext } from '../../../contexts';
 
 const Divider = styled.div`

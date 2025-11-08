@@ -7,8 +7,6 @@ import menuItems from '../../menuItems';
 import RightHeaderItems from './RightHeaderItems';
 import HeaderItem from '../../../components/shared/HeaderItem';
 import { useApplicationContext, useGameEditionContext } from '../../../contexts';
-import GameEditionModeButton from './GameEditionModeButton';
-import useWindowSize from '../../../hooks/useWindowSize';
 
 const Container = styled.div`
   display: flex;
@@ -58,10 +56,7 @@ const AnimatedDiv = styled.div`
 const DesktopHeader = ({ className }) => {
   const history = useHistory();
   const { gameEditionView } = useGameEditionContext();
-  const { resolutionConfiguration } = useApplicationContext();
-
-  const [width, height] = useWindowSize();
-  const { themeMode } = useApplicationContext();
+  const { resolutionConfiguration, themeMode } = useApplicationContext();
   return (
     <Container className={className} resolutionConfiguration={resolutionConfiguration}>
       <LeftContainer>

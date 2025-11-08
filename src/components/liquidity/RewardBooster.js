@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { CoinsIcon, EckoOutlineIcon } from '../../assets';
-import theme from '../../styles/theme';
+import { CoinsIcon } from '../../assets';
 import { FlexContainer } from '../shared/FlexContainer';
 import Label from '../shared/Label';
 

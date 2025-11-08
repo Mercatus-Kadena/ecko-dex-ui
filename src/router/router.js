@@ -33,7 +33,7 @@ import TokenInfoContainer from '../containers/TokenInfoContainer';
 import PoolInfoContainer from '../containers/PoolInfoContainer';
 import CreatePairContainer from '../components/liquidity/CreatePairContainer';
 
-export default () => {
+const AppRouter = () => {
   const { gameEditionView } = useGameEditionContext();
   return (
     <Router>
@@ -75,3 +75,5 @@ export default () => {
     </Router>
   );
 };
+
+export default AppRouter;

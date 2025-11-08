@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled, { css } from 'styled-components/macro';
 import { throttle, debounce } from 'throttle-debounce';
-import useWindowSize from '../hooks/useWindowSize';
 import { useHistory } from 'react-router-dom';
 import { FadeIn } from '../components/shared/animations';
 import TxView from '../components/modals/TxView';
@@ -30,17 +29,15 @@ import { SwapSuccessView, SwapSuccessViewGE } from '../components/modals/swap-mo
 // import { useInterval } from '../hooks/useInterval';
 import {
   useAccountContext,
-  useApplicationContext,
   useGameEditionContext,
   useModalContext,
   usePactContext,
   useSwapContext,
   useWalletContext,
 } from '../contexts';
-import theme, { commonColors } from '../styles/theme';
+import theme from '../styles/theme';
 import { Helmet } from 'react-helmet';
 import useQueryParams from '../hooks/useQueryParams';
-import { KADDEX_NAMESPACE } from '../constants/contextConstants';
 
 const Container = styled(FadeIn)`
   width: 100%;
@@ -97,13 +94,11 @@ const SvgContainer = styled.div`
 `;
 const SwapContainer = () => {
   const history = useHistory();
-  const [width, height] = useWindowSize();
   const pact = usePactContext();
   const swap = useSwapContext();
-  const account = useAccountContext(); 
+  const account = useAccountContext();
   const wallet = useWalletContext();
   const modalContext = useModalContext();
-  const { resolutionConfiguration } = useApplicationContext();
 
   const query = useQueryParams();
 

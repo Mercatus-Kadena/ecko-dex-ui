@@ -53,7 +53,7 @@
     "start:pact": "rm -Rf ./log && mkdir log && pact --serve ./pact-local/server.conf",
     "start:deploy": "./pact-local/initialize.sh 9001",
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build && node post-build.js",
+    "build": "DISABLE_ESLINT_PLUGIN=true react-app-rewired build && node post-build.js",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "postinstall": "patch-package",
@@ -90,7 +90,7 @@
     "react-app-rewired": "^2.2.1"
   },
   "engines": {
-    "node": "20.x",
+    "node": "22.x",
     "npm": "please-use-yarn"
   }
 }

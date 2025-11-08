@@ -5,7 +5,7 @@ import axios from 'axios';
 import { getPairList } from '../../api/pact';
 import { chartTimeRanges, CHART_OPTIONS, DAILY_VOLUME_RANGE } from '../../constants/chartOptionsConstants';
 import { usePactContext } from '../../contexts';
-import { humanReadableNumber, extractDecimal, reduceBalance } from '../../utils/reduceBalance';
+import { reduceBalance } from '../../utils/reduceBalance';
 import TVLChart from '../charts/TVLChart';
 import VolumeChart from '../charts/VolumeChart';
 import CustomDropdown from '../shared/CustomDropdown';
@@ -28,15 +28,7 @@ const Dex = ({ kdaPrice, kdxSupply, poolState }) => {
   const [tvlDetails, setTVLDetails] = useState([]);
   const [pairsVolume, setPairsVolume] = useState([]);
 
-  const stakedKdx = extractDecimal((poolState && poolState['staked-kdx']) || 0);
-  const normalizeTokenName = (name) => {
-    return name
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toUpperCase();
-  };
 
-  
   useEffect(() => {
     if (allPairs) {
       getPairList(allPairs).then((pL) => {

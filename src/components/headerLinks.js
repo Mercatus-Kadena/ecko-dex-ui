@@ -1,7 +1,7 @@
 import React from 'react';
-import { AboutIcon, CodeIcon, EckoWalletLogo, DiscordIcon, LinxLogoLight } from '../assets';
+import { CodeIcon, EckoWalletLogo, LinxLogoLight } from '../assets';
 
-export default [
+const headerLinks = [
   {
     id: 2,
     label: 'eckoWALLET',
@@ -33,5 +33,7 @@ export default [
     link: 'https://github.com/eckoDAO-org/ecko-dex-ui',
   },
 
-  
+
 ];
+
+export default headerLinks;

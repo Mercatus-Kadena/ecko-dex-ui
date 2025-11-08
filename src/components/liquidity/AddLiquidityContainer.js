@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { ArrowBack } from '../../assets';
@@ -10,7 +10,6 @@ import { FadeIn } from '../shared/animations';
 import RewardBooster from './RewardBooster';
 import useQueryParams from '../../hooks/useQueryParams';
 import DoubleSidedLiquidity from './DoubleSidedLiquidity';
-import SingleSidedLiquidity from './SingleSidedLiquidity';
 import { getPairList } from '../../api/pact';
 import { getGroupedVolume } from '../../api/kaddex-stats';
 import { getAllPairsData } from '../../utils/token-utils';
@@ -97,7 +96,7 @@ const AddLiquidityContainer = (props) => {
   }, [pair, data.pools]);
 
 
-  const getCurrentPool = (token0, token1) => {
+  const getCurrentPool = useCallback((token0, token1) => {
     // Check if the pair exists in pact.allPairs
     const pairKey = Object.keys(pact.allPairs).find(key => {
       const [t0, t1] = key.split(':');
@@ -107,23 +106,23 @@ const AddLiquidityContainer = (props) => {
     let pool;
     if (pairKey) {
       const [correctToken0, correctToken1] = pairKey.split(':');
-      pool = data.pools.find(p => 
-        (p.token0 === correctToken0 && p.token1 === correctToken1) || 
+      pool = data.pools.find(p =>
+        (p.token0 === correctToken0 && p.token1 === correctToken1) ||
         (p.token0 === correctToken1 && p.token1 === correctToken0)
       );
     }
 
     // If not found in pact.allPairs or data.pools, fall back to the original search
     if (!pool) {
-      pool = data.pools.find(p => 
-        (p.token0 === token0 && p.token1 === token1) || 
+      pool = data.pools.find(p =>
+        (p.token0 === token0 && p.token1 === token1) ||
         (p.token0 === token1 && p.token1 === token0)
       );
     }
 
     // console.log('Current pool:', pool);
     return pool;
-  };
+  }, [pact.allPairs, data.pools]);
 
 
 
