@@ -4,11 +4,13 @@ module.exports = function override(config, env) {
     Object.assign(fallback, {
       "stream": require.resolve("stream-browserify"),
       "http": require.resolve("stream-http"),
-      "https": require.resolve("https-browserify")
+      "https": require.resolve("https-browserify"),
+      "crypto": require.resolve("crypto-browserify"),
+      "process/browser": require.resolve("process/browser")
       // Add other polyfills here as needed
     });
     config.resolve.fallback = fallback;
-  
+
     // If using plugins like ProvidePlugin to polyfill global variables
     const webpack = require('webpack');
     config.plugins = (config.plugins || []).concat([
@@ -17,7 +19,7 @@ module.exports = function override(config, env) {
         process: 'process/browser',
       }),
     ]);
-  
+
     return config;
   };
   
