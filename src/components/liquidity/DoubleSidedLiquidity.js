@@ -118,8 +118,8 @@ const DoubleSidedLiquidity = ({ pair, pairCode, onPairChange }) => {
     if (fetchData) {
       setFetchingPair(true);
       if (toValues.address !== '' && fromValues.address !== '') {
-        const result = await pact.getReserves(pact.allTokens?.[fromValues?.address]?.code, pact.allTokens?.[toValues?.address]?.code);
-       
+        await pact.getReserves(pact.allTokens?.[fromValues?.address]?.code, pact.allTokens?.[toValues?.address]?.code);
+
       }
       setFetchingPair(false);
       setFetchData(false);

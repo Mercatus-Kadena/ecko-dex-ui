@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
-import PropTypes from 'prop-types';
 import { useGameEditionContext } from '../../contexts';
 import Label from './Label';
 import GameEditionButton from '../game-edition-v2/components/GameEditionButton';

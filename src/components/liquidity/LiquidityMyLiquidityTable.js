@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useAccountContext, usePactContext } from '../../contexts';
 import { useErrorState } from '../../hooks/useErrorState';
 import { getPairList, getPairListAccountBalance } from '../../api/pact';
-import { AddIcon, RemoveIcon, VerifiedLogo } from '../../assets';
+import { AddIcon, RemoveIcon } from '../../assets';
 import {
   ROUTE_LIQUIDITY_ADD_LIQUIDITY_DOUBLE_SIDED,
   ROUTE_LIQUIDITY_MY_LIQUIDITY,

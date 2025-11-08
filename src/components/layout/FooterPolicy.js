@@ -1,11 +1,8 @@
 import React from 'react';
-import { NccLogo, NccLogoLightMode } from '../../assets';
-import { useApplicationContext } from '../../contexts';
 import { FlexContainer } from '../shared/FlexContainer';
 
 const FooterPolicy = () => {
   //const [width] = useWindowSize();
-  const { themeMode } = useApplicationContext();
   return (
     <FlexContainer
       className="justify-ce" //replace with justify-sb

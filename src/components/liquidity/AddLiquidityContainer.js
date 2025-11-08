@@ -10,7 +10,6 @@ import { FadeIn } from '../shared/animations';
 import RewardBooster from './RewardBooster';
 import useQueryParams from '../../hooks/useQueryParams';
 import DoubleSidedLiquidity from './DoubleSidedLiquidity';
-import SingleSidedLiquidity from './SingleSidedLiquidity';
 import { getPairList } from '../../api/pact';
 import { getGroupedVolume } from '../../api/kaddex-stats';
 import { getAllPairsData } from '../../utils/token-utils';

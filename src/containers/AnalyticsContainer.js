@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import useLazyImage from '../hooks/useLazyImage';
-import { useApplicationContext, useGameEditionContext, usePactContext } from '../contexts';
+import { useGameEditionContext, usePactContext } from '../contexts';
 import modalBackground from '../assets/images/game-edition/modal-background.png';
 import LogoLoader from '../components/shared/Loader';
 import { FlexContainer } from '../components/shared/FlexContainer';
@@ -9,14 +9,13 @@ import Label from '../components/shared/Label';
 import Banner from '../components/layout/header/Banner';
 import InfoPopup from '../components/shared/InfoPopup';
 import { getPoolState } from '../api/kaddex.staking';
-import { theme, commonColors } from '../styles/theme';
+import { theme } from '../styles/theme';
 import { useHistory, useLocation } from 'react-router-dom';
 import { ROUTE_ANALYTICS, ROUTE_ANALYTICS_STATS } from '../router/routes';
 import Dex from '../components/analytics/Dex';
 import { getAnalyticsData } from '../api/kaddex-analytics';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
-import styled from 'styled-components';
 import Pools from '../components/analytics/Pools';
 
 export const FIXED_SUPPLY = 200577508;
@@ -28,7 +27,6 @@ const AnalyticsContainer = () => {
   const [analyticsData, setAnalyticsData] = useState({});
   const [poolState, setPoolState] = useState(null);
   const { gameEditionView } = useGameEditionContext();
-  const { themeMode } = useApplicationContext();
   const { kdaUsdPrice } = usePactContext();
 
   useEffect(() => {
@@ -119,14 +117,3 @@ const AnalyticsContainer = () => {
 };
 
 export default AnalyticsContainer;
-
-const ButtonContent = styled.div`
-  display: flex;
-  align-items: center;
-  svg {
-    margin-right: 8px;
-    path {
-      fill: ${({ color }) => color};
-    }
-  }
-`;

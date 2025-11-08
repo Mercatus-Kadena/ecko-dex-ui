@@ -1,9 +1,8 @@
 import Pact from 'pact-lang-api';
 import { handleError } from './utils';
-import { CHAIN_ID, creationTime, GAS_PRICE, KADDEX_NAMESPACE, NETWORKID } from '../constants/contextConstants';
+import { CHAIN_ID, creationTime, GAS_PRICE, KADDEX_NAMESPACE } from '../constants/contextConstants';
 import { NETWORK, PRICE_NETWORK } from '../constants/contextConstants';
 import { extractDecimal } from '../utils/reduceBalance';
-import {isWrapperBoosted} from '../constants/WrapperConfig';
 
 export const pactFetchLocal = async (pactCode, options) => {
   let data = await Pact.fetch.local(
@@ -241,9 +240,6 @@ const dataWithoutBooster = async (account, tokenPairList, allPairs) => {
   return [];  
 };
 
-const dataWithBooster = async (account, tokenPairList, allPairs) => {
-  return [];
-};
 
 
 

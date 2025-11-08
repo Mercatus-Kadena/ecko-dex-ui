@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components/macro';
-import { AddLiquidityLogo, BoosterIcon, LiquidityDollarLogo, VerifiedBoldLogo } from '../assets';
+import { AddLiquidityLogo, LiquidityDollarLogo } from '../assets';
 import LiquidityMyLiquidityTable from '../components/liquidity/LiquidityMyLiquidityTable';
 import LiquidityPoolsTable from '../components/liquidity/LiquidityPoolsTable';
 import LiquidityRewardsTable from '../components/liquidity/LiquidityRewardsTable';
 import LiquidityTablesInfo from '../components/liquidity/LiquidityTablesInfo';
 import LiquidityTokensTable from '../components/liquidity/LiquidityTokensTable';
 import CustomButton from '../components/shared/CustomButton';
-import CustomPopup from '../components/shared/CustomPopup';
 import { FlexContainer } from '../components/shared/FlexContainer';
 import InfoPopup from '../components/shared/InfoPopup';
 import Label from '../components/shared/Label';
@@ -23,14 +22,13 @@ import {
   ROUTE_LIQUIDITY_REWARDS,
   ROUTE_LIQUIDITY_TOKENS,
 } from '../router/routes';
-import { theme, commonColors } from '../styles/theme';
+import { theme } from '../styles/theme';
 
 const LiquidityContainer = () => {
   const { pathname } = useLocation();
   const history = useHistory();
   const { themeMode } = useApplicationContext();
   const [width] = useWindowSize();
-  const [verifiedActive, setVerifiedActive] = useState(true);
 
   return (
     <FlexContainer
@@ -163,9 +161,9 @@ const LiquidityContainer = () => {
         )}
       </FlexContainer>
       {/* SINGLE SIDE TABLE */}
-      {pathname === ROUTE_LIQUIDITY_TOKENS && <LiquidityTokensTable verifiedActive={verifiedActive} />}
+      {pathname === ROUTE_LIQUIDITY_TOKENS && <LiquidityTokensTable />}
       {/* DOUBLE SIDE TABLE */}
-      {pathname === ROUTE_LIQUIDITY_POOLS && <LiquidityPoolsTable verifiedActive={verifiedActive} />}
+      {pathname === ROUTE_LIQUIDITY_POOLS && <LiquidityPoolsTable />}
       {/* MY LIQUIDITY TABLE */}
       {pathname === ROUTE_LIQUIDITY_MY_LIQUIDITY && <LiquidityMyLiquidityTable />}
       {/* MY LIQUIDITY TABLE */}

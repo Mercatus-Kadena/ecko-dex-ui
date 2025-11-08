@@ -2,7 +2,7 @@ import React, { createContext } from 'react';
 import Pact from 'pact-lang-api';
 import { reduceBalance } from '../utils/reduceBalance';
 import { useKaddexWalletContext, useWalletContext, useAccountContext, usePactContext, useWalletConnectContext } from '.';
-import { CHAIN_ID, creationTime, NETWORK, NETWORKID, KADDEX_NAMESPACE, NETWORK_VERSION } from '../constants/contextConstants';
+import { CHAIN_ID, NETWORK, NETWORKID, KADDEX_NAMESPACE, NETWORK_VERSION } from '../constants/contextConstants';
 import { getPair, getPairAccount, getTokenBalanceAccount } from '../api/pact';
 import { mkReq, parseRes } from '../api/utils';
 

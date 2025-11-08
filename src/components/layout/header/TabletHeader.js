@@ -3,10 +3,8 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components/macro';
 import { HamburgerIcon, EckoDexLightModeLogo, EckoDexLogo } from '../../../assets';
 import { useApplicationContext } from '../../../contexts';
-import useWindowSize from '../../../hooks/useWindowSize';
 import { ROUTE_INDEX } from '../../../router/routes';
 import menuItems from '../../menuItems';
-import GameEditionModeButton from './GameEditionModeButton';
 import PopupContentList from './PopupContentList';
 import RightHeaderItems from './RightHeaderItems';
 
@@ -50,8 +48,7 @@ const RowContainer = styled.div`
 
 const TabletHeader = ({ className }) => {
   const history = useHistory();
-  const { themeMode, resolutionConfiguration } = useApplicationContext();
-  const [width, height] = useWindowSize();
+  const { themeMode } = useApplicationContext();
   return (
     <Container className={className}>
       <RowContainer>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Divider } from 'semantic-ui-react';
-import { ROUTE_LIQUIDITY_POOLS } from '../../router/routes';
 import { FlexContainer } from '../shared/FlexContainer';
 import Label from '../shared/Label';
 

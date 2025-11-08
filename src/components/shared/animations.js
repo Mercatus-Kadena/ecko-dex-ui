@@ -24,7 +24,10 @@ export const FadeOut = styled.div`
     }
   }
 `;
-export default {
+
+const animations = {
   FadeIn,
   FadeOut,
 };
+
+export default animations;

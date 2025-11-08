@@ -20,7 +20,6 @@ import AppLoader from '../components/shared/AppLoader';
 import { LIQUIDITY_VIEW } from '../constants/liquidityView';
 import { getAllPairsData } from '../utils/token-utils';
 import theme from '../styles/theme';
-import RemoveSingleSideLiquidity from '../components/liquidity/RemoveSingleSideLiquidity';
 import {isWrapperBoosted} from '../constants/WrapperConfig';
 
 const Container = styled(FadeIn)`
