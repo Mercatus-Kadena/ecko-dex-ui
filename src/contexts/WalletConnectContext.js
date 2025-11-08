@@ -260,7 +260,7 @@ export const WalletConnectProvider = (props) => {
     }
   }, [client, initialize]);
 
-  const deleteWalletConnectSession = async () => {
+  const deleteWalletConnectSession = useCallback(async () => {
     await client.disconnect({
       topic: walletConnectState?.pairingTopic,
       reason: 'USER_DISCONNECTED',
@@ -268,7 +268,7 @@ export const WalletConnectProvider = (props) => {
     setWalletConnectState(initialWalletConnectState);
     localStorage.removeItem('walletConnectState');
     logout();
-  };
+  }, [client, walletConnectState?.pairingTopic, setWalletConnectState, logout]);
 
   useEffect(() => {
     if (client) {

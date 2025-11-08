@@ -24,7 +24,7 @@ export const TimeRangeBtn = styled(Label)`
   }
 `;
 
-const VolumeChart = ({ kdaPrice, width, height }) => {
+const VolumeChart = ({ kdaPrice }) => {
   const [volume, setVolume] = useState([]);
   const [dailyVolume, setDailyVolume] = useState('');
   const [currentDate, setCurrentDate] = useState(null);
@@ -159,11 +159,9 @@ const VolumeChart = ({ kdaPrice, width, height }) => {
           value={volumeRange}
         />
       </div>
-      <div style={{ width: '100%', height }}>
+      <div style={{ width: '100%', height: '100%' }}>
         <ResponsiveContainer>
           <BarChart
-            width={width}
-            height={height}
             data={volume}
             onMouseMove={({ activePayload }) => {
               if (activePayload) {
