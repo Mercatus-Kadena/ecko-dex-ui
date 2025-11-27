@@ -118,7 +118,7 @@ const AccountModal = ({ pathname }) => {
                 $gameEditionView={gameEditionView}
                 onClick={() =>
                   process.env.REACT_APP_KDA_NETWORK_TYPE !== 'development' &&
-                  window.open(`https://explorer.chainweb.com/${NETWORK_TYPE}/eventsearch?q=${account.account}`, '_blank', 'noopener,noreferrer')
+                  window.open(`https://explorer.chainweb-community.org/${NETWORK_TYPE}/eventsearch?q=${account.account}`, '_blank', 'noopener,noreferrer')
                 }
               >
                 <ExplorerIcon />
