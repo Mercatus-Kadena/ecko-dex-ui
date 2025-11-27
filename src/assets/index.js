@@ -1,3 +1,6 @@
+import denaScanImg from './images/shared/denascan.png';
+
+
 export { ReactComponent as AboutBigIcon } from './images/header/about-big.svg';
 export { ReactComponent as AboutIcon } from './images/header/about.svg';
 export { ReactComponent as AddIcon } from './images/shared/add.svg';
@@ -71,10 +74,11 @@ export { ReactComponent as LiquidityDollarLogo } from './images/shared/liquidity
 export { ReactComponent as AddLiquidityLogo } from './images/shared/add_liquidity.svg';
 export { ReactComponent as VaultIcon } from './images/shared/vault.svg';
 export { ReactComponent as SKDXIcon } from './images/shared/skdx-logo.svg';
-export { ReactComponent as UnmarshalLogo } from './images/shared/unmarshal-logo.svg';
 export { ReactComponent as KadenaExplorerLogo } from './images/shared/kadena-explorer-logo.svg';
 export { ReactComponent as LinxLogoLight } from './images/shared/linx-logo-light.svg';
 export { ReactComponent as CircleInfo } from './images/shared/circle-info.svg';
 export { ReactComponent as KadenaSimpleLogo } from './images/shared/kadena_simple.svg';
+export const DenaScanLogo = (props) => <img src={denaScanImg} alt="logo" {...props} />
+
 export * from '../assets/images/game-edition';
 export * from './socials';
