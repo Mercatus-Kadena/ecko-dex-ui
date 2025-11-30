@@ -28,7 +28,7 @@ export const customPactFetchLocal = async (pactCode, options) => {
   let data = await Pact.fetch.local(
     {
       pactCode,
-      meta: Pact.lang.mkMeta('', String(4), GAS_PRICE, 150000, creationTime(), 600),
+      meta: Pact.lang.mkMeta('', String(0), GAS_PRICE, 150000, creationTime(), 600),
       ...options,
     },
     PRICE_NETWORK
