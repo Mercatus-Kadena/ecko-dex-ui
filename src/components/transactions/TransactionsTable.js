@@ -13,7 +13,7 @@ import { convertUTCToSecond } from '../../utils/time-utils';
 
 import {
   KadenaExplorerLogo,
-  UnmarshalLogo,
+  DenaScanLogo,
 } from '../../assets';
 
 const getColor = (item) => {
@@ -31,13 +31,13 @@ const formatPrice = (price, precision = 3, unit="$") => {
 };
 
 export const getExplorerLink = (item) => {
-  const unmarshalUrl = `https://xscan.io/transactions/${item.requestkey}?chain=kadena`;
-  const kadenaExplorerUrl = `https://explorer.chainweb.com/mainnet/tx/${item.requestkey}`;
-  const kadenaDetailsExplorerUrl = `https://explorer.chainweb.com/mainnet/txdetail/${item.requestkey}`;
+  const denaScanUrl = `https://denascan.com/transactions/${item.requestkey}?chain=kadena`;
+  const kadenaExplorerUrl = `https://explorer.chainweb-community.org/mainnet/tx/${item.requestkey}`;
+  const kadenaDetailsExplorerUrl = `https://explorer.chainweb-community.org/mainnet/txdetail/${item.requestkey}`;
 
-  const unmarshalLink = (
-    <a href={unmarshalUrl} target="_blank" rel="noopener noreferrer">
-      <UnmarshalLogo style={{ cursor: 'pointer', width: 24, height: 24 }} />
+  const denaScanlLink = (
+    <a href={denaScanUrl} target="_blank" rel="noopener noreferrer">
+      <DenaScanLogo style={{ cursor: 'pointer', width: 24, height: 24 }} />
     </a>
   );
 
@@ -57,7 +57,7 @@ export const getExplorerLink = (item) => {
     <FlexContainer className="align-ce" gap={8}>
       {kadenaExplorerLink}
       {kadenaDetailsExplorerLink}
-      {item.address.startsWith('k:') && unmarshalLink}
+      {denaScanlLink}
     </FlexContainer>
   );
 };

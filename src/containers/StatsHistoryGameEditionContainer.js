@@ -57,7 +57,7 @@ const StatsHistoryGameEditionContainer = () => {
           columns={renderColumns()}
           onClick={(item) => {
             process.env.REACT_APP_KDA_NETWORK_TYPE !== 'development' &&
-              window.open(`https://explorer.chainweb.com/${NETWORK_TYPE}/tx/${item?.requestKey}`, '_blank', 'noopener,noreferrer');
+              window.open(`https://explorer.chainweb-community.org/${NETWORK_TYPE}/tx/${item?.requestKey}`, '_blank', 'noopener,noreferrer');
           }}
         />
       ) : (
